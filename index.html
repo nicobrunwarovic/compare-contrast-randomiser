@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compare & Contrast</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .box {
+      border: 2px solid white;
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
+      width: 80%;
+      max-width: 500px;
+      margin-bottom: 1rem;
+      animation: fadeIn 1s ease-in-out;
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .counter {
+      margin-bottom: 1rem;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    button {
+      background-color: white;
+      color: black;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ccc;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .loading {
+      font-size: 2rem;
+      animation: bounce 1s infinite;
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+  <h1>📚 Compare & Contrast</h1>
+  <div id="result" class="box">
+    Click the button to generate a task!
+  </div>
+  <div class="counter" id="counter">Remaining students: 24</div>
+  <div class="buttons">
+    <button onclick="generateTask()">Randomise</button>
+    <button onclick="resetStudents()">Reset</button>
+  </div>
+
+  <script>
+    const allStudents = [
+      "Alessandro Andretta", "Alice Bergamin", "Brunella Bertazzo", "Leonardo Bertoncello",
+      "Alessandro Biasi", "Rachele Bonaldi", "Angela Chen", "Irene Contin",
+      "Matilde Da Lio", "Vittoria Facchin", "Anna Feltracco", "Giada Formentin",
+      "Victoria Granzotto", "Martina Guidolin", "Chiara Marazzato", "Sofia Marcolin",
+      "Ginevra Marin", "Annarita Pittarello", "Filippo Rizziero", "Anna Stocco",
+      "Pietro Tieppo", "Giorgia Visentin", "Maria Zancanaro", "Anna Zedda"
+    ];
+
+    let remainingStudents = [...allStudents];
+
+    const poems = [
+      "A Supermarket in California",
+      "Having a Coke with You",
+      "Sonny's Lettah",
+      "Evidently Chickentown"
+    ];
+
+    const categories = [
+      "Tone",
+      "Symbols / Everyday Images",
+      "Values",
+      "Narrative Voice",
+      "Relationship with the Modern World"
+    ];
+
+    function updateCounter() {
+      const counter = document.getElementById("counter");
+      counter.textContent = `Remaining students: ${remainingStudents.length}`;
+    }
+
+    function resetStudents() {
+      remainingStudents = [...allStudents];
+      updateCounter();
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = "Student list has been reset.";
+    }
+
+    function generateTask() {
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = '<div class="loading">🎓 📖 🧐</div>';
+
+      setTimeout(() => {
+        if (remainingStudents.length === 0) {
+          remainingStudents = [...allStudents];
+        }
+
+        const studentIndex = Math.floor(Math.random() * remainingStudents.length);
+        const student = remainingStudents.splice(studentIndex, 1)[0];
+
+        const shuffledPoems = poems.sort(() => 0.5 - Math.random());
+        const selectedPoems = shuffledPoems.slice(0, 2);
+
+        const category = categories[Math.floor(Math.random() * categories.length)];
+
+        resultDiv.innerHTML = `
+          <h2>🎓 Student: ${student}</h2>
+          <p>📖 Poems: <strong>${selectedPoems[0]}</strong> & <strong>${selectedPoems[1]}</strong></p>
+          <p>🧐 Focus on: <strong>${category}</strong></p>
+        `;
+
+        updateCounter();
+
+        resultDiv.style.animation = 'none';
+        void resultDiv.offsetWidth;
+        resultDiv.style.animation = null;
+      }, 1500);
+    }
+
+    updateCounter();
+  </script>
+</body>
+</html>
