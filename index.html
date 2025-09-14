@@ -90,7 +90,14 @@
     <button onclick="generateTask()">Randomise</button>
     <button onclick="resetStudents()">Reset</button>
   </div>
+  <div class="box">
+    <h2>Adjective Order Checker</h2>
+    <input type="text" id="adjectiveInput" placeholder="e.g., 'beautiful big old red car'" />
+    <button onclick="checkOrder()">Check</button>
+    <p id="adjectiveResult"></p>
+  </div>
 
+  <script src="adjectiveOrderChecker.js"></script>
   <script>
     const allStudents = [
       "Alessandro Andretta", "Alice Bergamin", "Brunella Bertazzo", "Leonardo Bertoncello",
@@ -159,6 +166,15 @@
         void resultDiv.offsetWidth;
         resultDiv.style.animation = null;
       }, 1500);
+    }
+
+    function checkOrder() {
+      const input = document.getElementById("adjectiveInput").value;
+      const result = checkAdjectiveOrder(input);
+      const output = document.getElementById("adjectiveResult");
+      output.textContent = result
+        ? "Correct adjective order!"
+        : "Incorrect adjective order.";
     }
 
     updateCounter();
